@@ -90,6 +90,11 @@
     scroll-behavior: smooth;
   }
 }
+/* 추가한CSS */
+.form-group{
+  margin: 10px;
+}
+
 
 body {
   margin: 0;

@@ -12,6 +12,8 @@ public interface GuestbookService {
     //한페이지에 보여질 글목록(GuestbookDto 객체)이 저장된 list정보를 갖고있는 pageResultDTo 객체참조값을 반환하는 기능
     PageResultDTO<GuestbookDTO,Guestbook> getList(PageRequestDTO requestDTO);
 
+    GuestbookDTO read(Long gno);
+
     default Guestbook dtoToEntity(GuestbookDTO dto){
 
         Guestbook entity =Guestbook.builder()

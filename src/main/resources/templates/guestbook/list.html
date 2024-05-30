@@ -1,8 +1,24 @@
 <!DOCTYPE html>
 <html lang="en"  xmlns:th="http://www.thymeleaf.org">
-    <th:block th:replace="~{/layOut/basic :: setContent(~{this::content})}">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></--script-->
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+
+</head>
+
+    <th:block th:replace="~{/layout/basic :: setContent(~{this::content})}">
         <th:block th:fragment="content">
-            <h1>GuestBook List Page</h1>
+            <h1 class="mt-4">GuestBook List Page
+                <span>
+                    <a th:href="@{/guestbook/register}">
+                    <button type="button" class="btn btn-outline-primary">Register</button>
+                    </a>
+                </span>
+
+
+            </h1>
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -15,7 +31,11 @@
                 <tbody>
                 <tr th:each="dto : ${result.dtoList}">
                     <th scope="row">[[${dto.gno}]]</th>
-                    <td>[[${dto.title}]]</td>
+                    <td>
+                        <a th:href="@{/guestbook/read(gno =${dto.gno},page=${result.page})}">
+                            [[${dto.title}]]
+                        </a>
+                    </td>
                     <td>[[${dto.writer}]]</td>
                     <td>[[${#temporals.format(dto.regDate,'yyyy/MM/dd')}]]</td>
                 </tr>
@@ -34,4 +54,33 @@
             </ul>
         </th:block>
     </th:block>
+<!-- 모달창 구현-->
+<div class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="$('.modal').hide()">
+
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="$('.modal').hide()">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    var msg =[[${msg}]];
+
+    if(msg){
+        $(".modal").show();
+    }
+
+</script>
 </html>
