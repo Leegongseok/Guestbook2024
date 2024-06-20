@@ -19,6 +19,28 @@
 
 
             </h1>
+            <!-- 검색타입과 검색어를 입력할수있는 화면 구성-->
+            <form action="/guestbook/list" method="get" id="searchForm">
+                <div class="input-group">
+                    <input type="hidden" name="page" value="1">
+                    <div class="input-group-prepend">
+                        <select name="type" class="form-select">
+                            <option th:selected="${pageRequestDTO.type == null}">검색 종류가 선택되지 않음</option>
+                            <option th:selected="${pageRequestDTO.type == 't'}" value="t">제목</option>
+                            <option th:selected="${pageRequestDTO.type == 'c'}" value="c">작성자</option>
+                            <option th:selected="${pageRequestDTO.type == 'w'}" value="w">제목+내용</option>
+                            <option th:selected="${pageRequestDTO.type == 'tc'}" value="tc">제목+내용</option>
+                            <option th:selected="${pageRequestDTO.type == 'tcw'}" value="tcw">제목+내용+작성자</option>
+                        </select>
+                    </div>
+                    <input class="form-control" type="text" name="keyword" th:value="${pageRequestDTO.keyword}">
+                    <div class="input-group-prepend" >
+                        <button type="button" class="btn btn-outline-secondary btn-primary btn-search">Search</button>
+                        <button type="button"  class="btn btn-outline-secondary btn-danger btn-cancel">Cancel</button>
+                    </div>
+                </div>
+            </form>
+            <!-- 검색 화면 구성End    -->
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -32,7 +54,7 @@
                 <tr th:each="dto : ${result.dtoList}">
                     <th scope="row">[[${dto.gno}]]</th>
                     <td>
-                        <a th:href="@{/guestbook/read(gno =${dto.gno},page=${result.page})}">
+                        <a th:href="@{/guestbook/read(gno =${dto.gno},page=${result.page},type=${pageRequestDtO.type},keyword=${pageRequestDtO.keyword})}">
                             [[${dto.title}]]
                         </a>
                     </td>
@@ -43,13 +65,13 @@
             </table>
             <ul class="pagination h-100 justify-content-center align-items-center">
                 <li class="page-item" th:if="${result.prev}">
-                    <a class="page-link" th:href="@{/guestbook/list(page=${result.start -1})}" tabindex="-1">previous</a>
+                    <a class="page-link" th:href="@{/guestbook/list(page=${result.start -1},type=${pageRequestDtO.type},keyword=${pageRequestDtO.keyword})}" tabindex="-1">previous</a>
                 </li>
                 <li th:class="'page-item '+ ${result.page ==page?'active':''}" th:each="page : ${result.pageList}">
-                    <a class="page-link" th:href="@{/guestbook/list(page=${page})}">[[${page}]]</a>
+                    <a class="page-link" th:href="@{/guestbook/list(page=${page},type=${pageRequestDtO.type},keyword=${pageRequestDtO.keyword})}">[[${page}]]</a>
                 </li>
                 <li class="page-item" th:if="${result.next}">
-                    <a class="page-link" th:href="@{/guestbook/list(page=${result.end +1})}">Next</a>
+                    <a class="page-link" th:href="@{/guestbook/list(page=${result.end +1},type=${pageRequestDtO.type},keyword=${pageRequestDtO.keyword})}">Next</a>
                 </li>
             </ul>
         </th:block>
@@ -81,6 +103,14 @@
     if(msg){
         $(".modal").show();
     }
+
+    var form =$("#searchForm");
+    $(".btn-search").click(function (e){
+        form.submit();
+    });
+    $(".btn-cancel").click(function (e){
+        form.empty().submit();
+    });
 
 </script>
 </html>
