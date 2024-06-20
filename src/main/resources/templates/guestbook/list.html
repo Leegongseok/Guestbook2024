@@ -54,7 +54,7 @@
                 <tr th:each="dto : ${result.dtoList}">
                     <th scope="row">[[${dto.gno}]]</th>
                     <td>
-                        <a th:href="@{/guestbook/read(gno =${dto.gno},page=${result.page},type=${pageRequestDtO.type},keyword=${pageRequestDtO.keyword})}">
+                        <a th:href="@{/guestbook/read(gno =${dto.gno},page=${result.page},type=${pageRequestDTO.type},keyword=${pageRequestDTO.keyword})}">
                             [[${dto.title}]]
                         </a>
                     </td>
@@ -65,13 +65,13 @@
             </table>
             <ul class="pagination h-100 justify-content-center align-items-center">
                 <li class="page-item" th:if="${result.prev}">
-                    <a class="page-link" th:href="@{/guestbook/list(page=${result.start -1},type=${pageRequestDtO.type},keyword=${pageRequestDtO.keyword})}" tabindex="-1">previous</a>
+                    <a class="page-link" th:href="@{/guestbook/list(page=${result.start -1},type=${pageRequestDTO.type},keyword=${pageRequestDTO.keyword})}" tabindex="-1">previous</a>
                 </li>
                 <li th:class="'page-item '+ ${result.page ==page?'active':''}" th:each="page : ${result.pageList}">
-                    <a class="page-link" th:href="@{/guestbook/list(page=${page},type=${pageRequestDtO.type},keyword=${pageRequestDtO.keyword})}">[[${page}]]</a>
+                    <a class="page-link" th:href="@{/guestbook/list(page=${page},type=${pageRequestDTO.type},keyword=${pageRequestDTO.keyword})}">[[${page}]]</a>
                 </li>
                 <li class="page-item" th:if="${result.next}">
-                    <a class="page-link" th:href="@{/guestbook/list(page=${result.end +1},type=${pageRequestDtO.type},keyword=${pageRequestDtO.keyword})}">Next</a>
+                    <a class="page-link" th:href="@{/guestbook/list(page=${result.end +1},type=${pageRequestDTO.type},keyword=${pageRequestDTO.keyword})}">Next</a>
                 </li>
             </ul>
         </th:block>
